@@ -768,7 +768,7 @@ const NativeVideoPlayerContainer = (
             paused={ paused }
             rate={ rate }
             resizeMode={ resizeMode }
-            repeat={ false }
+            repeat={ true }
             nativeProps={ nativeProps }
 
             onProgress={ onProgress }
