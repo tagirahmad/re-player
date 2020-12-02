@@ -69,10 +69,10 @@ const NativeVideoPlayerContainer = (
     const [ activeQualityItem, setActiveQualityItem ] = useState(0);
 
     const [ rate, setRate ] = useState(1);
-    const [ volume, setVolume ] = useState(0.5);
+    const [ volume, setVolume ] = useState(1);
     const [ rememberVolume, setRememberVolume ] = useState(0.5);
     const [ muted, setMuted ] = useState(false);
-    const [ resizeMode, setResizeMode ] = useState('cover');
+    const [ resizeMode, setResizeMode ] = useState('contain');
     const [ paused, setPaused ] = useState(false);
     const [ fullscreen, setFullscreen ] = useState(false);
 
@@ -820,8 +820,8 @@ const NativeVideoPlayerContainer = (
                     opacity: AnimationOverlay,
                 }}>
                     {renderQualitiesBox()}
-                    {renderLeftDoubleTap()}
-                    {renderRightDoubleTap()}
+                    {/* {renderLeftDoubleTap()}
+                    {renderRightDoubleTap()} */}
                     {renderBigPlayerAction(2.5)}
                     {renderProgressBar()}
                     {renderBottomLine()}
