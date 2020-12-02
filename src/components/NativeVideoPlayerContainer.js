@@ -734,7 +734,7 @@ const NativeVideoPlayerContainer = (
                 }}>
                     {renderCropControl()}
                     {renderFullscreenControl()}
-                    {renderActionControl()}
+                    {/* {renderActionControl()} */}
                 </View>
             </Animated.View>
         )
