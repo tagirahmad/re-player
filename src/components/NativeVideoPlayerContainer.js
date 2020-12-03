@@ -63,6 +63,7 @@ const NativeVideoPlayerContainer = (
 
         isPaused,
         playBackgroundColor,
+        barMinimumTrackTintColor,
     }) => {
 
     const [targetSource, setTargetSource] = useState(source[source.length - 1].src);
@@ -695,7 +696,7 @@ const NativeVideoPlayerContainer = (
                     maximumValue={duration}
                     step={1}
                     onValueChange={onSeek}
-                    minimumTrackTintColor="#fff"
+                    minimumTrackTintColor={barMinimumTrackTintColor}
                     maximumTrackTintColor="#fff"
                     thumbTintColor="#fff"
                 />
@@ -877,7 +878,8 @@ NativeVideoPlayerContainer.propTypes = {
     onEventHardwareBackPress: PropTypes.func,
 
     isPaused: PropTypes.bool,
-    playBackgroundColor: PropTypes.string
+    playBackgroundColor: PropTypes.string,
+    barMinimumTrackTintColor: PropTypes.string
 };
 
 const noop = () => { }
@@ -908,7 +910,8 @@ NativeVideoPlayerContainer.defaultProps = {
     onEventHardwareBackPress: noop,
 
     isPaused: false,
-    playBackgroundColor: null
+    playBackgroundColor: null,
+    barMinimumTrackTintColor: '#fff'
 };
 
 export default NativeVideoPlayerContainer;
