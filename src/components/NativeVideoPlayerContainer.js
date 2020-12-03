@@ -27,7 +27,7 @@ const QualityItem = ({ quality, onSelect, isFullscreen, isActive }) => {
                 isFullscreen ? human.callout : human.footnote,
                 { color: isActive ? 'green' : '#fff', borderBottomColor: isActive ? 'green' : '#fff', borderBottomWidth: 1, marginBottom: 5, marginTop: 5, width: '100%' }
             ]}>
-                { quality.size }
+                {quality.size}
             </Text>
         </TouchableOpacity>
     )
@@ -62,30 +62,31 @@ const NativeVideoPlayerContainer = (
         onEventHardwareBackPress,
 
         isPaused,
+        playBackgroundColor,
     }) => {
 
-    const [ targetSource, setTargetSource ] = useState(source[ source.length - 1 ].src);
-    const [ qualities, setQualities ] = useState([]);
-    const [ qualityEnable, setQualityEnable ] = useState(false);
-    const [ visibleQualityBox, setVisibleQualityBox ] = useState(false);
-    const [ activeQualityItem, setActiveQualityItem ] = useState(0);
+    const [targetSource, setTargetSource] = useState(source[source.length - 1].src);
+    const [qualities, setQualities] = useState([]);
+    const [qualityEnable, setQualityEnable] = useState(false);
+    const [visibleQualityBox, setVisibleQualityBox] = useState(false);
+    const [activeQualityItem, setActiveQualityItem] = useState(0);
 
-    const [ rate, setRate ] = useState(1);
-    const [ volume, setVolume ] = useState(1);
-    const [ rememberVolume, setRememberVolume ] = useState(0.5);
-    const [ muted, setMuted ] = useState(false);
-    const [ resizeMode, setResizeMode ] = useState('contain');
-    const [ paused, setPaused ] = useState(isPaused);
-    const [ fullscreen, setFullscreen ] = useState(false);
+    const [rate, setRate] = useState(1);
+    const [volume, setVolume] = useState(1);
+    const [rememberVolume, setRememberVolume] = useState(0.5);
+    const [muted, setMuted] = useState(false);
+    const [resizeMode, setResizeMode] = useState('contain');
+    const [paused, setPaused] = useState(isPaused);
+    const [fullscreen, setFullscreen] = useState(false);
 
-    const [ isVisible, setIsVisible ] = useState(false);
-    const [ sliderValue, setSliderValue ] = useState(0);
-    const [ duration, setDuration ] = useState(0);
-    const [ currentTime, setCurrentTime ] = useState(0);
-    const [ isLoaded, setIsLoaded ] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
+    const [sliderValue, setSliderValue] = useState(0);
+    const [duration, setDuration] = useState(0);
+    const [currentTime, setCurrentTime] = useState(0);
+    const [isLoaded, setIsLoaded] = useState(false);
 
-    const [ isVisibleOverlay, setIsVisibleOverlay ] = useState(true);
-    const [ isLocked, setIsLocked ] = useState(false);
+    const [isVisibleOverlay, setIsVisibleOverlay] = useState(true);
+    const [isLocked, setIsLocked] = useState(false);
 
     const TimerHandler = useRef(null);
     const AnimationOverlay = useRef(new Animated.Value(0)).current;
@@ -98,18 +99,18 @@ const NativeVideoPlayerContainer = (
     });
 
     useEffect(() => {
-        setTargetSource(source[ source.length - 1 ].src);
+        setTargetSource(source[source.length - 1].src);
 
         if (!!source && source.length > 1) {
             setQualities(source);
-            setActiveQualityItem(source[ source.length - 1 ].size);
+            setActiveQualityItem(source[source.length - 1].size);
             setQualityEnable(true);
         } else {
             setQualityEnable(false);
             setQualities([]);
         }
 
-    }, [ source ]);
+    }, [source]);
 
     useEffect(() => {
         BackHandler.addEventListener('hardwareBackPress', onBackHundle);
@@ -272,9 +273,9 @@ const NativeVideoPlayerContainer = (
 
     const renderFullscreenControl = () => {
         return (
-            <TouchableOpacity onPress={() => onFullscreen(fullscreen) }>
+            <TouchableOpacity onPress={() => onFullscreen(fullscreen)}>
                 <View style={{ paddingRight: 10 }}>
-                    <Icon name={fullscreen ? 'minimize' : 'maximize'} size={ fullscreen ? 30 : 20 } color={'#fff'} />
+                    <Icon name={fullscreen ? 'minimize' : 'maximize'} size={fullscreen ? 30 : 20} color={'#fff'} />
                 </View>
             </TouchableOpacity>
         )
@@ -306,7 +307,7 @@ const NativeVideoPlayerContainer = (
         return (
             <TouchableOpacity onPress={onCropPress}>
                 <View style={{ paddingRight: 20 }}>
-                    <IconFontisto name={'crop'} size={ fullscreen ? 30 : 20 } color={'#fff'} />
+                    <IconFontisto name={'crop'} size={fullscreen ? 30 : 20} color={'#fff'} />
                 </View>
             </TouchableOpacity>
         )
@@ -323,7 +324,7 @@ const NativeVideoPlayerContainer = (
             <TouchableOpacity onPress={() => onTogglePlayPause()}>
                 <View style={{ paddingRight: 10 }}>
                     <View style={{ width: fullscreen ? 20 : 15 }}>
-                        <IconFontisto name={ !paused ? 'pause' : 'play' } size={ size * !fullscreen ? 15 : 20 } color={'#fff'} />
+                        <IconFontisto name={!paused ? 'pause' : 'play'} size={size * !fullscreen ? 15 : 20} color={'#fff'} />
                     </View>
                 </View>
             </TouchableOpacity>
@@ -339,11 +340,21 @@ const NativeVideoPlayerContainer = (
                 // временный костыль почему то боковые стрелки переключения по видео выталкивают
                 // бедную кнопочку большой плей
                 // не хорошо, надо разбираться!
-                paddingTop: fullscreen ? ( duration > 0 ? 50 : 30 ) : ( duration > 0 ? 45 : 20 )
+                paddingTop: fullscreen ? (duration > 0 ? 50 : 30) : (duration > 0 ? 45 : 20)
             }}>
-
                 <TouchableOpacity onPress={() => onTogglePlayPause()}>
-                    <IconFontisto name={ !paused ? 'pause' : 'play' } size={ size * !fullscreen ? 30 : 45 } color={'#fff'} />
+                    <View style={{
+                        width: fullscreen ? 65 : 55,
+                        height: fullscreen ? 65 : 55,
+                        borderRadius: 100 / 2,
+                        backgroundColor: playBackgroundColor,
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}>
+                        <IconFontisto
+                            style={paused ? { position: 'absolute', left: 15 } : []}
+                            name={!paused ? 'pause' : 'play'} size={size * !fullscreen ? 30 : 45} color={'#fff'} />
+                    </View>
                 </TouchableOpacity>
             </Animated.View>
         )
@@ -377,9 +388,9 @@ const NativeVideoPlayerContainer = (
 
         return (
             <View style={{ color: '#fff', flexDirection: 'row', alignItems: 'center' }}>
-                <TouchableOpacity onPress={ onVolumeMute }>
+                <TouchableOpacity onPress={onVolumeMute}>
                     <View style={{ paddingLeft: 10, marginLeft: 10, width: fullscreen ? 45 : 35 }}>
-                        <IconFontisto name={ icon } size={ fullscreen ? 20 : 15 } color={'#fff'} />
+                        <IconFontisto name={icon} size={fullscreen ? 20 : 15} color={'#fff'} />
                     </View>
                 </TouchableOpacity>
 
@@ -388,7 +399,7 @@ const NativeVideoPlayerContainer = (
                         ? { width: 150, height: 30 }
                         : { width: 100, height: 20 }
                     }
-                    onValueChange={ onVolumeChange }
+                    onValueChange={onVolumeChange}
                     onSlidingStart={() => {
                         // todo
                     }}
@@ -433,9 +444,9 @@ const NativeVideoPlayerContainer = (
 
     const renderActionControl = () => {
         return (
-            <TouchableOpacity onPress={ onActionControlToggle }>
+            <TouchableOpacity onPress={onActionControlToggle}>
                 <View style={{ paddingLeft: 10 }}>
-                    <IconFontisto name={ 'nav-icon-grid' } size={ !fullscreen ? 15 : 20 } color={'#fff'} />
+                    <IconFontisto name={'nav-icon-grid'} size={!fullscreen ? 15 : 20} color={'#fff'} />
                 </View>
             </TouchableOpacity>
         )
@@ -478,10 +489,10 @@ const NativeVideoPlayerContainer = (
                 }}
             >
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={[ human.callout, { color: '#fff', paddingRight: 10 } ]}>
+                    <Text style={[human.callout, { color: '#fff', paddingRight: 10 }]}>
                         - 10
                     </Text>
-                    <IconFontisto name={'arrow-return-left'} size={ fullscreen ? 30 : 20 } color={'#fff'} />
+                    <IconFontisto name={'arrow-return-left'} size={fullscreen ? 30 : 20} color={'#fff'} />
                 </View>
             </DoubleTap>
         );
@@ -510,8 +521,8 @@ const NativeVideoPlayerContainer = (
                 }}
             >
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <IconFontisto name={'arrow-return-right'} size={ fullscreen ? 30 : 20 } color={'#fff'} />
-                    <Text style={[ human.callout, { color: '#fff', paddingLeft: 10 } ]}>
+                    <IconFontisto name={'arrow-return-right'} size={fullscreen ? 30 : 20} color={'#fff'} />
+                    <Text style={[human.callout, { color: '#fff', paddingLeft: 10 }]}>
                         10 +
                     </Text>
                 </View>
@@ -521,12 +532,12 @@ const NativeVideoPlayerContainer = (
 
     const renderBackArrow = () => {
         if (!fullscreen) {
-            return <View style={{ paddingHorizontal: fullscreen ? 25 : 15 }}/>
+            return <View style={{ paddingHorizontal: fullscreen ? 25 : 15 }} />
         }
 
         return (
             <TouchableOpacity onPress={() => onFullscreen(fullscreen)} style={{ paddingHorizontal: fullscreen ? 25 : 15 }}>
-                <IconFontisto name={'arrow-left-l'} size={ fullscreen ? 20 : 15 } color={'#fff'} />
+                <IconFontisto name={'arrow-left-l'} size={fullscreen ? 20 : 15} color={'#fff'} />
             </TouchableOpacity>
         )
     };
@@ -540,7 +551,7 @@ const NativeVideoPlayerContainer = (
     const renderLockAction = () => {
         return (
             <TouchableOpacity onPress={onLock} style={{ paddingHorizontal: fullscreen ? 25 : 15 }}>
-                <IconFontisto name={ isLocked ? 'unlocked' : 'locked'} size={ fullscreen ? 20 : 15 } color={'#fff'} />
+                <IconFontisto name={isLocked ? 'unlocked' : 'locked'} size={fullscreen ? 20 : 15} color={'#fff'} />
             </TouchableOpacity>
         )
     };
@@ -556,7 +567,7 @@ const NativeVideoPlayerContainer = (
 
         return (
             <Text style={{ color: '#fff', maxWidth: Dimensions.get('window').width * 0.5 }} numberOfLines={1}>
-                { title }
+                { title}
             </Text>
         )
     };
@@ -581,7 +592,7 @@ const NativeVideoPlayerContainer = (
         return (
             <View>
                 <TouchableOpacity onPress={onToogleQualityBox}>
-                    <IconFontisto name={'player-settings'} size={ fullscreen ? 20 : 15 } color={'#fff'} />
+                    <IconFontisto name={'player-settings'} size={fullscreen ? 20 : 15} color={'#fff'} />
                 </TouchableOpacity>
             </View>
         );
@@ -671,10 +682,10 @@ const NativeVideoPlayerContainer = (
             <>
                 <Row style={{ paddingHorizontal: 15 }}>
                     <Text style={{ color: '#fff' }}>
-                        { formatTime(currentTime) }
+                        {formatTime(currentTime)}
                     </Text>
                     <Text style={{ color: '#fff' }}>
-                        { formatTime(duration) }
+                        {formatTime(duration)}
                     </Text>
                 </Row>
                 <Slider
@@ -683,7 +694,7 @@ const NativeVideoPlayerContainer = (
                     minimumValue={0}
                     maximumValue={duration}
                     step={1}
-                    onValueChange={ onSeek }
+                    onValueChange={onSeek}
                     minimumTrackTintColor="#fff"
                     maximumTrackTintColor="#fff"
                     thumbTintColor="#fff"
@@ -699,8 +710,8 @@ const NativeVideoPlayerContainer = (
 
         return (
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                <IconFontisto name={'record'} size={ 10 } color={'red'} />
-                <Text style={[ human.callout, { color: '#fff', paddingLeft: 5 } ]}>
+                <IconFontisto name={'record'} size={10} color={'red'} />
+                <Text style={[human.callout, { color: '#fff', paddingLeft: 5 }]}>
                     Live
                 </Text>
             </View>
@@ -750,34 +761,34 @@ const NativeVideoPlayerContainer = (
         return (
             <NativeVideoPlayerActionOverlayContainer
                 closeStyle={{ paddingRight: fullscreen ? 20 : 10, paddingTop: fullscreen ? 10 : 5 }}
-                width={ fullscreen ? 350 : 150 }
+                width={fullscreen ? 350 : 150}
                 onClose={onOverlayActionClose}
                 style={{ transform: [{ translateX: translationX }] }}
-                iconSize={ fullscreen ? 30 : 20 }
+                iconSize={fullscreen ? 30 : 20}
             >
-                { children }
+                { children}
             </NativeVideoPlayerActionOverlayContainer>
         )
     };
 
     const NativePlayerInizializing = (
         <NativeVideoPlayer
-            setRef={ ref => video.current = ref }
-            source={ targetSource }
-            fullscreen={ fullscreen }
-            volume={ volume }
-            muted={ muted }
-            paused={ paused }
-            rate={ rate }
-            resizeMode={ resizeMode }
-            repeat={ true }
-            nativeProps={ nativeProps }
+            setRef={ref => video.current = ref}
+            source={targetSource}
+            fullscreen={fullscreen}
+            volume={volume}
+            muted={muted}
+            paused={paused}
+            rate={rate}
+            resizeMode={resizeMode}
+            repeat={true}
+            nativeProps={nativeProps}
 
-            onProgress={ onProgress }
-            onLoadStart={ onLoadStart }
-            onLoad={ onLoad }
-            onAudioBecomingNoisy={ onAudioBecomingNoisy }
-            onAudioFocusChanged={ onAudioFocusChanged }
+            onProgress={onProgress}
+            onLoadStart={onLoadStart}
+            onLoad={onLoad}
+            onAudioBecomingNoisy={onAudioBecomingNoisy}
+            onAudioFocusChanged={onAudioFocusChanged}
         />
     );
 
@@ -785,10 +796,10 @@ const NativeVideoPlayerContainer = (
         return (
             <>
                 <View style={{ flex: 1 }}>
-                    { progressComponent }
+                    {progressComponent}
                 </View>
                 <View style={{ position: 'absolute' }}>
-                    { NativePlayerInizializing }
+                    {NativePlayerInizializing}
                 </View>
             </>
         )
@@ -799,10 +810,10 @@ const NativeVideoPlayerContainer = (
             <DoubleTap
                 activeOpacity={1}
                 delay={180}
-                onTap={ onShowControlsHandle }
-                onDoubleTap={ () => !isLocked && onDoubleTapFullscreen() }
+                onTap={onShowControlsHandle}
+                onDoubleTap={() => !isLocked && onDoubleTapFullscreen()}
             >
-                { NativePlayerInizializing }
+                {NativePlayerInizializing}
             </DoubleTap>
 
             {renderNativeOverlayContainer()}
@@ -866,9 +877,10 @@ NativeVideoPlayerContainer.propTypes = {
     onEventHardwareBackPress: PropTypes.func,
 
     isPaused: PropTypes.bool,
+    playBackgroundColor: PropTypes.string
 };
 
-const noop = () => {}
+const noop = () => { }
 
 NativeVideoPlayerContainer.defaultProps = {
     isDebug: true,
@@ -896,6 +908,7 @@ NativeVideoPlayerContainer.defaultProps = {
     onEventHardwareBackPress: noop,
 
     isPaused: false,
+    playBackgroundColor: null
 };
 
 export default NativeVideoPlayerContainer;
