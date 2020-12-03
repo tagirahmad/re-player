@@ -863,7 +863,9 @@ NativeVideoPlayerContainer.propTypes = {
     onEventAudioFocusChanged: PropTypes.func,
     onEventOverlayOpen: PropTypes.func,
     onEventOverlayClose: PropTypes.func,
-    onEventHardwareBackPress: PropTypes.func
+    onEventHardwareBackPress: PropTypes.func,
+
+    isPaused: PropTypes.bool,
 };
 
 const noop = () => {}
@@ -891,7 +893,9 @@ NativeVideoPlayerContainer.defaultProps = {
     onEventAudioFocusChanged: noop,
     onEventOverlayOpen: noop,
     onEventOverlayClose: noop,
-    onEventHardwareBackPress: noop
+    onEventHardwareBackPress: noop,
+
+    isPaused: false,
 };
 
 export default NativeVideoPlayerContainer;
