@@ -59,7 +59,9 @@ const NativeVideoPlayerContainer = (
         onEventAudioFocusChanged,
         onEventOverlayOpen,
         onEventOverlayClose,
-        onEventHardwareBackPress
+        onEventHardwareBackPress,
+
+        isPaused,
     }) => {
 
     const [ targetSource, setTargetSource ] = useState(source[ source.length - 1 ].src);
@@ -73,7 +75,7 @@ const NativeVideoPlayerContainer = (
     const [ rememberVolume, setRememberVolume ] = useState(0.5);
     const [ muted, setMuted ] = useState(false);
     const [ resizeMode, setResizeMode ] = useState('contain');
-    const [ paused, setPaused ] = useState(false);
+    const [ paused, setPaused ] = useState(isPaused);
     const [ fullscreen, setFullscreen ] = useState(false);
 
     const [ isVisible, setIsVisible ] = useState(false);
