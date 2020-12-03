@@ -24,7 +24,6 @@ const NativeVideoPlayer = (
 
     return (
         <Video
-            { ...nativeProps }
             style={!!fullscreen ? style.fullscreen : style.common }
 
             // TODO required
@@ -52,6 +51,7 @@ const NativeVideoPlayer = (
             onAudioBecomingNoisy={onAudioBecomingNoisy}
             onAudioFocusChanged={onAudioFocusChanged}
             repeat={repeat}
+            { ...nativeProps }
         />
     );
 };
